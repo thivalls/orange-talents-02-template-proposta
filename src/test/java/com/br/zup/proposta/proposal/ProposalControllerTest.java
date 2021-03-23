@@ -18,9 +18,11 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.net.URI;
+import java.util.List;
 import java.util.regex.Matcher;
 
 @SpringBootTest
@@ -48,22 +50,24 @@ public class ProposalControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(proposalRequest))
         )
-                .andExpect(MockMvcResultMatchers.status().isCreated())
-                .andExpect(MockMvcResultMatchers.header().exists("Location"))
-                .andExpect(MockMvcResultMatchers.header().stringValues("http://localhost:8080/proposals/1"))
-                .andExpect(MockMvcResultMatchers.header().string("Location", Matchers.endsWith("/proposals/1")))
+//                .andExpect(MockMvcResultMatchers.header().exists("Location"))
+//                .andExpect(MockMvcResultMatchers.header().stringValues("http://localhost:8080/proposals/1"))
+//                .andExpect(MockMvcResultMatchers.header().string("Location", Matchers.endsWith("/proposals/1")))
                 .andReturn();
 
-        Assertions.assertEquals("http://localhost/proposals/1", location.getResponse().getHeader("Location"));
-        Assertions.assertTrue(location.getResponse().getHeader("Location").contains("/proposals/1"));
+        Query query = em.createQuery("Select a from Proposal a", Proposal.class);
+        List<Proposal> resultList = query.getResultList();
 
-        Proposal proposal = em.find(Proposal.class, 1L);
+        Assertions.assertEquals(201, location.getResponse().getStatus());
+        Assertions.assertTrue(location.getResponse().getHeader("Location").contains("/proposals/" + resultList.get(0).getId()));
+        Assertions.assertEquals(1, resultList.size());
+        Assertions.assertEquals("http://localhost/proposals/" + resultList.get(0).getId(), location.getResponse().getHeader("Location"));
 
-        Assertions.assertNotNull(proposal);
-        Assertions.assertEquals(1, proposal.getId());
-        Assertions.assertEquals("Fulano", proposal.getName());
-        Assertions.assertEquals("email@email.com", proposal.getEmail());
-        Assertions.assertEquals("878.234.560-01", proposal.getDocument());
+        Assertions.assertNotNull(resultList.get(0));
+        Assertions.assertEquals(1, resultList.get(0).getId());
+        Assertions.assertEquals("Fulano", resultList.get(0).getName());
+        Assertions.assertEquals("email@email.com", resultList.get(0).getEmail());
+        Assertions.assertEquals("878.234.560-01", resultList.get(0).getDocument());
     }
 
     @Test
