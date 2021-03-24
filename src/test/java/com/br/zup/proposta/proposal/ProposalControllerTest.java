@@ -37,6 +37,16 @@ public class ProposalControllerTest {
     private EntityManager em;
 
     @Test
+    @DisplayName("It should not create a new proposal with equal document user")
+    void test14() throws Exception {
+        ProposalRequest proposalRequest = new ProposalRequest("878.234.560-01", "email@email.com", "Fulano", "Alameda das Orquídeas, 1080", new BigDecimal(1000));
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/proposals").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(proposalRequest)));
+        mockMvc.perform(MockMvcRequestBuilders.post("/proposals").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(proposalRequest)))
+                .andExpect(MockMvcResultMatchers.status().isUnprocessableEntity());
+    }
+
+    @Test
     @DisplayName("It should create a new proposal with correct fields validation")
     void test1() throws Exception {
         ProposalRequest proposalRequest = new ProposalRequest("878.234.560-01", "email@email.com", "Fulano", "Alameda das Orquídeas, 1080", new BigDecimal(1000));

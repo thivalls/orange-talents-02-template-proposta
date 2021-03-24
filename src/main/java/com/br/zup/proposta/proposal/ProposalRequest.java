@@ -1,7 +1,6 @@
 package com.br.zup.proposta.proposal;
 
-import com.br.zup.proposta.proposal.shared.validation.CpfOrCnpj;
-import com.br.zup.proposta.proposal.shared.validation.UniqueField;
+import com.br.zup.proposta.shared.validation.CpfOrCnpj;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;

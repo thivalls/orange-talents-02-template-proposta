@@ -1,8 +1,5 @@
 package com.br.zup.proposta.proposal;
 
-import com.br.zup.proposta.proposal.shared.validation.CpfOrCnpj;
-
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -26,7 +23,6 @@ public class Proposal {
 
     @NotBlank
     @Email
-    @Column(unique = true)
     private String email;
 
     @NotBlank
@@ -39,24 +35,16 @@ public class Proposal {
     @NotNull
     private BigDecimal salary;
 
+    @Deprecated
+    public Proposal() {
+    }
+
     public Proposal(@NotBlank String document, @NotBlank @Email String email, @NotBlank String name, @NotBlank String address, @Positive @NotNull BigDecimal salary) {
         this.document = document;
         this.email = email;
         this.name = name;
         this.address = address;
         this.salary = salary;
-    }
-
-    @Override
-    public String toString() {
-        return "Proposal{" +
-                "id=" + id +
-                ", document='" + document + '\'' +
-                ", email='" + email + '\'' +
-                ", name='" + name + '\'' +
-                ", address='" + address + '\'' +
-                ", salary=" + salary +
-                '}';
     }
 
     public Long getId() {

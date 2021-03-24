@@ -1,4 +1,4 @@
-package com.br.zup.proposta.proposal.shared.validation;
+package com.br.zup.proposta.shared.validation;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

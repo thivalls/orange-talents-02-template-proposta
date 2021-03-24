@@ -1,4 +1,4 @@
-package com.br.zup.proposta.proposal.shared.error;
+package com.br.zup.proposta.shared.error;
 
 public class ErrorDefaultDTO {
     private String field;

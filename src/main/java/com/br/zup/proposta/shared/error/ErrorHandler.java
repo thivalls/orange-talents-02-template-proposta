@@ -1,4 +1,4 @@
-package com.br.zup.proposta.proposal.shared.error;
+package com.br.zup.proposta.shared.error;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
