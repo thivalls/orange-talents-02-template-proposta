@@ -1,7 +1,6 @@
 package com.br.zup.proposta.proposal;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,21 +13,18 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
-import java.net.URI;
 import java.util.List;
-import java.util.regex.Matcher;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@Transactional
 @ActiveProfiles("test")
+@Transactional
 public class ProposalControllerTest {
 
     @Autowired
@@ -44,24 +40,29 @@ public class ProposalControllerTest {
     @DisplayName("It should create a new proposal with correct fields validation")
     void test1() throws Exception {
         ProposalRequest proposalRequest = new ProposalRequest("878.234.560-01", "email@email.com", "Fulano", "Alameda das Orquídeas, 1080", new BigDecimal(1000));
-        // URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(proposal.getId()).toUri();
+
         MvcResult location = mockMvc.perform(
                 MockMvcRequestBuilders.post("/proposals")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(proposalRequest))
         )
-//                .andExpect(MockMvcResultMatchers.header().exists("Location"))
-//                .andExpect(MockMvcResultMatchers.header().stringValues("http://localhost:8080/proposals/1"))
-//                .andExpect(MockMvcResultMatchers.header().string("Location", Matchers.endsWith("/proposals/1")))
+                // This comments are only to write down some anothers ways to do the same thing below
+                // .andExpect(MockMvcResultMatchers.header().exists("Location"))
+                // .andExpect(MockMvcResultMatchers.header().stringValues("http://localhost:8080/proposals/1"))
+                // .andExpect(MockMvcResultMatchers.header().string("Location", Matchers.endsWith("/proposals/1")))
                 .andReturn();
 
-        Query query = em.createQuery("Select a from Proposal a", Proposal.class);
+        Query query = em.createQuery("Select a from Proposal a where a.email = :email", Proposal.class);
+        query.setParameter("email", proposalRequest.getEmail());
         List<Proposal> resultList = query.getResultList();
+
+        System.out.println(resultList.toString() + "*******************************************************HHHHHH***************************");
 
         Assertions.assertEquals(201, location.getResponse().getStatus());
         Assertions.assertTrue(location.getResponse().getHeader("Location").contains("/proposals/" + resultList.get(0).getId()));
         Assertions.assertEquals(1, resultList.size());
         Assertions.assertEquals("http://localhost/proposals/" + resultList.get(0).getId(), location.getResponse().getHeader("Location"));
+        Assertions.assertTrue(location.getResponse().getHeader("Location").endsWith("/proposals/" + resultList.get(0).getId()));
 
         Assertions.assertNotNull(resultList.get(0));
         Assertions.assertEquals(1, resultList.get(0).getId());
@@ -80,9 +81,7 @@ public class ProposalControllerTest {
                         .content(objectMapper.writeValueAsString(proposalRequest))
         ).andExpect(MockMvcResultMatchers.status().isBadRequest());
 
-        Proposal proposal = em.find(Proposal.class, 1L);
-
-        Assertions.assertNull(proposal);
+        assertNoResultsDatabase();
     }
 
     @Test
@@ -95,9 +94,7 @@ public class ProposalControllerTest {
                         .content(objectMapper.writeValueAsString(proposalRequest))
         ).andExpect(MockMvcResultMatchers.status().isBadRequest());
 
-        Proposal proposal = em.find(Proposal.class, 1L);
-
-        Assertions.assertNull(proposal);
+        assertNoResultsDatabase();
     }
 
     @Test
@@ -110,9 +107,7 @@ public class ProposalControllerTest {
                         .content(objectMapper.writeValueAsString(proposalRequest))
         ).andExpect(MockMvcResultMatchers.status().isBadRequest());
 
-        Proposal proposal = em.find(Proposal.class, 1L);
-
-        Assertions.assertNull(proposal);
+        assertNoResultsDatabase();
     }
 
     @Test
@@ -125,9 +120,7 @@ public class ProposalControllerTest {
                         .content(objectMapper.writeValueAsString(proposalRequest))
         ).andExpect(MockMvcResultMatchers.status().isBadRequest());
 
-        Proposal proposal = em.find(Proposal.class, 1L);
-
-        Assertions.assertNull(proposal);
+        assertNoResultsDatabase();
     }
 
     @Test
@@ -140,9 +133,7 @@ public class ProposalControllerTest {
                         .content(objectMapper.writeValueAsString(proposalRequest))
         ).andExpect(MockMvcResultMatchers.status().isBadRequest());
 
-        Proposal proposal = em.find(Proposal.class, 1L);
-
-        Assertions.assertNull(proposal);
+        assertNoResultsDatabase();
     }
 
     @Test
@@ -155,9 +146,7 @@ public class ProposalControllerTest {
                         .content(objectMapper.writeValueAsString(proposalRequest))
         ).andExpect(MockMvcResultMatchers.status().isBadRequest());
 
-        Proposal proposal = em.find(Proposal.class, 1L);
-
-        Assertions.assertNull(proposal);
+        assertNoResultsDatabase();
     }
 
     @Test
@@ -170,9 +159,7 @@ public class ProposalControllerTest {
                         .content(objectMapper.writeValueAsString(proposalRequest))
         ).andExpect(MockMvcResultMatchers.status().isBadRequest());
 
-        Proposal proposal = em.find(Proposal.class, 1L);
-
-        Assertions.assertNull(proposal);
+        assertNoResultsDatabase();
     }
 
     @Test
@@ -185,9 +172,7 @@ public class ProposalControllerTest {
                         .content(objectMapper.writeValueAsString(proposalRequest))
         ).andExpect(MockMvcResultMatchers.status().isBadRequest());
 
-        Proposal proposal = em.find(Proposal.class, 1L);
-
-        Assertions.assertNull(proposal);
+        assertNoResultsDatabase();
     }
 
     @Test
@@ -200,9 +185,7 @@ public class ProposalControllerTest {
                         .content(objectMapper.writeValueAsString(proposalRequest))
         ).andExpect(MockMvcResultMatchers.status().isBadRequest());
 
-        Proposal proposal = em.find(Proposal.class, 1L);
-
-        Assertions.assertNull(proposal);
+        assertNoResultsDatabase();
     }
 
     @Test
@@ -215,9 +198,7 @@ public class ProposalControllerTest {
                         .content(objectMapper.writeValueAsString(proposalRequest))
         ).andExpect(MockMvcResultMatchers.status().isBadRequest());
 
-        Proposal proposal = em.find(Proposal.class, 1L);
-
-        Assertions.assertNull(proposal);
+        assertNoResultsDatabase();
     }
 
     @Test
@@ -230,9 +211,7 @@ public class ProposalControllerTest {
                         .content(objectMapper.writeValueAsString(proposalRequest))
         ).andExpect(MockMvcResultMatchers.status().isBadRequest());
 
-        Proposal proposal = em.find(Proposal.class, 1L);
-
-        Assertions.assertNull(proposal);
+        assertNoResultsDatabase();
     }
 
     @Test
@@ -245,8 +224,13 @@ public class ProposalControllerTest {
                         .content(objectMapper.writeValueAsString(proposalRequest))
         ).andExpect(MockMvcResultMatchers.status().isBadRequest());
 
-        Proposal proposal = em.find(Proposal.class, 1L);
+        assertNoResultsDatabase();
+    }
 
-        Assertions.assertNull(proposal);
+    private void assertNoResultsDatabase() {
+        Query query = em.createQuery("Select a from Proposal a", Proposal.class);
+        List<Proposal> resultList = query.getResultList();
+
+        Assertions.assertEquals(0, resultList.size());
     }
 }

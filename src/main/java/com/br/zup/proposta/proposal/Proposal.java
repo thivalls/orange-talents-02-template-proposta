@@ -2,6 +2,7 @@ package com.br.zup.proposta.proposal;
 
 import com.br.zup.proposta.proposal.shared.validation.CpfOrCnpj;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,6 +26,7 @@ public class Proposal {
 
     @NotBlank
     @Email
+    @Column(unique = true)
     private String email;
 
     @NotBlank
