@@ -64,21 +64,17 @@ public class ProposalControllerTest {
 
         Query query = em.createQuery("Select a from Proposal a where a.email = :email", Proposal.class);
         query.setParameter("email", proposalRequest.getEmail());
-        List<Proposal> resultList = query.getResultList();
-
-        System.out.println(resultList.toString() + "*******************************************************HHHHHH***************************");
+        Proposal foundProposal = (Proposal) query.getSingleResult();
 
         Assertions.assertEquals(201, location.getResponse().getStatus());
-        Assertions.assertTrue(location.getResponse().getHeader("Location").contains("/proposals/" + resultList.get(0).getId()));
-        Assertions.assertEquals(1, resultList.size());
-        Assertions.assertEquals("http://localhost/proposals/" + resultList.get(0).getId(), location.getResponse().getHeader("Location"));
-        Assertions.assertTrue(location.getResponse().getHeader("Location").endsWith("/proposals/" + resultList.get(0).getId()));
+        Assertions.assertTrue(location.getResponse().getHeader("Location").contains("/proposals/" + foundProposal.getId()));
+        Assertions.assertEquals("http://localhost/proposals/" + foundProposal.getId(), location.getResponse().getHeader("Location"));
+        Assertions.assertTrue(location.getResponse().getHeader("Location").endsWith("/proposals/" + foundProposal.getId()));
 
-        Assertions.assertNotNull(resultList.get(0));
-        Assertions.assertEquals(1, resultList.get(0).getId());
-        Assertions.assertEquals("Fulano", resultList.get(0).getName());
-        Assertions.assertEquals("email@email.com", resultList.get(0).getEmail());
-        Assertions.assertEquals("878.234.560-01", resultList.get(0).getDocument());
+        Assertions.assertNotNull(foundProposal);
+        Assertions.assertEquals("Fulano", foundProposal.getName());
+        Assertions.assertEquals("email@email.com", foundProposal.getEmail());
+        Assertions.assertEquals("878.234.560-01", foundProposal.getDocument());
     }
 
     @Test
