@@ -2,6 +2,7 @@ package com.br.zup.proposta.proposal;
 
 import com.br.zup.proposta.shared.validation.CpfOrCnpj;
 
+import javax.persistence.Embedded;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -21,18 +22,18 @@ public class ProposalRequest {
     @NotBlank
     private String name;
 
-    @NotBlank
-    private String address;
+    @NotNull
+    private AddressRequest addressRequest;
 
     @Positive
     @NotNull
     private BigDecimal salary;
 
-    public ProposalRequest(@NotBlank String document, @NotBlank @Email String email, @NotBlank String name, @NotBlank String address, @Positive @NotNull BigDecimal salary) {
+    public ProposalRequest(@NotBlank String document, @NotBlank @Email String email, @NotBlank String name, @NotBlank AddressRequest addressRequest, @Positive @NotNull BigDecimal salary) {
         this.document = document;
         this.email = email;
         this.name = name;
-        this.address = address;
+        this.addressRequest = addressRequest;
         this.salary = salary;
     }
 
@@ -48,26 +49,15 @@ public class ProposalRequest {
         return name;
     }
 
-    public String getAddress() {
-        return address;
+    public AddressRequest getAddressRequest() {
+        return addressRequest;
     }
 
     public BigDecimal getSalary() {
         return salary;
     }
 
-    @Override
-    public String toString() {
-        return "ProposalRequest{" +
-                "document='" + document + '\'' +
-                ", email='" + email + '\'' +
-                ", name='" + name + '\'' +
-                ", address='" + address + '\'' +
-                ", salary=" + salary +
-                '}';
-    }
-
     public Proposal toModel() {
-        return new Proposal(document, email, name, address, salary);
+        return new Proposal(document, email, name, addressRequest.toAddress(), salary);
     }
 }

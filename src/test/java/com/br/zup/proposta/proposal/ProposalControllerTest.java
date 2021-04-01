@@ -39,7 +39,8 @@ public class ProposalControllerTest {
     @Test
     @DisplayName("It should not create a new proposal with equal document user")
     void test14() throws Exception {
-        ProposalRequest proposalRequest = new ProposalRequest("878.234.560-01", "email@email.com", "Fulano", "Alameda das Orquídeas, 1080", new BigDecimal(1000));
+        AddressRequest addressRequest = new AddressRequest("Alameda das Orquídeas", "999", "13560000");
+        ProposalRequest proposalRequest = new ProposalRequest("878.234.560-01", "email@email.com", "Fulano", addressRequest, new BigDecimal(1000));
 
         mockMvc.perform(MockMvcRequestBuilders.post("/proposals").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(proposalRequest)));
         mockMvc.perform(MockMvcRequestBuilders.post("/proposals").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(proposalRequest)))
@@ -49,7 +50,8 @@ public class ProposalControllerTest {
     @Test
     @DisplayName("It should create a new proposal with correct fields validation")
     void test1() throws Exception {
-        ProposalRequest proposalRequest = new ProposalRequest("878.234.560-01", "email@email.com", "Fulano", "Alameda das Orquídeas, 1080", new BigDecimal(1000));
+        AddressRequest addressRequest = new AddressRequest("Alameda das Orquídeas", "999", "13560000");
+        ProposalRequest proposalRequest = new ProposalRequest("878.234.560-01", "email@email.com", "Fulano", addressRequest, new BigDecimal(1000));
 
         MvcResult location = mockMvc.perform(
                 MockMvcRequestBuilders.post("/proposals")
@@ -80,7 +82,8 @@ public class ProposalControllerTest {
     @Test
     @DisplayName("It should not create a new proposal with invalid email address")
     void test2() throws Exception {
-        ProposalRequest proposalRequest = new ProposalRequest("878.234.560-01", "invalidemail", "Fulano", "Alameda das Orquídeas, 1080", new BigDecimal(1000));
+        AddressRequest addressRequest = new AddressRequest("Alameda das Orquídeas", "999", "13560000");
+        ProposalRequest proposalRequest = new ProposalRequest("878.234.560-01", "invalidemail", "Fulano", addressRequest, new BigDecimal(1000));
         mockMvc.perform(
                 MockMvcRequestBuilders.post("/proposals")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -93,7 +96,8 @@ public class ProposalControllerTest {
     @Test
     @DisplayName("It should not create a new proposal with nullable email address")
     void test3() throws Exception {
-        ProposalRequest proposalRequest = new ProposalRequest("878.234.560-01", null, "Fulano", "Alameda das Orquídeas, 1080", new BigDecimal(1000));
+        AddressRequest addressRequest = new AddressRequest("Alameda das Orquídeas", "999", "13560000");
+        ProposalRequest proposalRequest = new ProposalRequest("878.234.560-01", null, "Fulano", addressRequest, new BigDecimal(1000));
         mockMvc.perform(
                 MockMvcRequestBuilders.post("/proposals")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -106,7 +110,8 @@ public class ProposalControllerTest {
     @Test
     @DisplayName("It should not create a new proposal with empty email address")
     void test4() throws Exception {
-        ProposalRequest proposalRequest = new ProposalRequest("878.234.560-01", "", "Fulano", "Alameda das Orquídeas, 1080", new BigDecimal(1000));
+        AddressRequest addressRequest = new AddressRequest("Alameda das Orquídeas", "999", "13560000");
+        ProposalRequest proposalRequest = new ProposalRequest("878.234.560-01", "", "Fulano", addressRequest, new BigDecimal(1000));
         mockMvc.perform(
                 MockMvcRequestBuilders.post("/proposals")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -119,7 +124,8 @@ public class ProposalControllerTest {
     @Test
     @DisplayName("It should not create a new proposal with empty field name")
     void test5() throws Exception {
-        ProposalRequest proposalRequest = new ProposalRequest("878.234.560-01", "email@email.com", "", "Alameda das Orquídeas, 1080", new BigDecimal(1000));
+        AddressRequest addressRequest = new AddressRequest("Alameda das Orquídeas", "999", "13560000");
+        ProposalRequest proposalRequest = new ProposalRequest("878.234.560-01", "email@email.com", "", addressRequest, new BigDecimal(1000));
         mockMvc.perform(
                 MockMvcRequestBuilders.post("/proposals")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -132,7 +138,8 @@ public class ProposalControllerTest {
     @Test
     @DisplayName("It should not create a new proposal with nullable field name")
     void test6() throws Exception {
-        ProposalRequest proposalRequest = new ProposalRequest("878.234.560-01", "email@email.com", null, "Alameda das Orquídeas, 1080", new BigDecimal(1000));
+        AddressRequest addressRequest = new AddressRequest("Alameda das Orquídeas", "999", "13560000");
+        ProposalRequest proposalRequest = new ProposalRequest("878.234.560-01", "email@email.com", null, addressRequest, new BigDecimal(1000));
         mockMvc.perform(
                 MockMvcRequestBuilders.post("/proposals")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -156,22 +163,10 @@ public class ProposalControllerTest {
     }
 
     @Test
-    @DisplayName("It should not create a new proposal with empty field address")
-    void test8() throws Exception {
-        ProposalRequest proposalRequest = new ProposalRequest("878.234.560-01", "email@email.com", "Fulano", "", new BigDecimal(1000));
-        mockMvc.perform(
-                MockMvcRequestBuilders.post("/proposals")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(proposalRequest))
-        ).andExpect(MockMvcResultMatchers.status().isBadRequest());
-
-        assertNoResultsDatabase();
-    }
-
-    @Test
     @DisplayName("It should not create a new proposal with nullable field salary")
     void test9() throws Exception {
-        ProposalRequest proposalRequest = new ProposalRequest("878.234.560-01", "email@email.com", "Fulano", "Alameda das Orquídeas, 1080", null);
+        AddressRequest addressRequest = new AddressRequest("Alameda das Orquídeas", "999", "13560000");
+        ProposalRequest proposalRequest = new ProposalRequest("878.234.560-01", "email@email.com", "Fulano", addressRequest, null);
         mockMvc.perform(
                 MockMvcRequestBuilders.post("/proposals")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -184,7 +179,8 @@ public class ProposalControllerTest {
     @Test
     @DisplayName("It should not create a new proposal with negative field salary")
     void test10() throws Exception {
-        ProposalRequest proposalRequest = new ProposalRequest("878.234.560-01", "email@email.com", "Fulano", "Alameda das Orquídeas, 1080", new BigDecimal(-1));
+        AddressRequest addressRequest = new AddressRequest("Alameda das Orquídeas", "999", "13560000");
+        ProposalRequest proposalRequest = new ProposalRequest("878.234.560-01", "email@email.com", "Fulano", addressRequest, new BigDecimal(-1));
         mockMvc.perform(
                 MockMvcRequestBuilders.post("/proposals")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -197,7 +193,8 @@ public class ProposalControllerTest {
     @Test
     @DisplayName("It should not create a new proposal with nullable field document")
     void test11() throws Exception {
-        ProposalRequest proposalRequest = new ProposalRequest(null, "email@email.com", "Fulano", "Alameda das Orquídeas, 1080", new BigDecimal(1000));
+        AddressRequest addressRequest = new AddressRequest("Alameda das Orquídeas", "999", "13560000");
+        ProposalRequest proposalRequest = new ProposalRequest(null, "email@email.com", "Fulano", addressRequest, new BigDecimal(1000));
         mockMvc.perform(
                 MockMvcRequestBuilders.post("/proposals")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -210,7 +207,8 @@ public class ProposalControllerTest {
     @Test
     @DisplayName("It should not create a new proposal with empty field document")
     void test12() throws Exception {
-        ProposalRequest proposalRequest = new ProposalRequest("", "email@email.com", "Fulano", "Alameda das Orquídeas, 1080", new BigDecimal(1000));
+        AddressRequest addressRequest = new AddressRequest("Alameda das Orquídeas", "999", "13560000");
+        ProposalRequest proposalRequest = new ProposalRequest("", "email@email.com", "Fulano", addressRequest, new BigDecimal(1000));
         mockMvc.perform(
                 MockMvcRequestBuilders.post("/proposals")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -223,7 +221,8 @@ public class ProposalControllerTest {
     @Test
     @DisplayName("It should not create a new proposal with invalid field document")
     void test13() throws Exception {
-        ProposalRequest proposalRequest = new ProposalRequest("233444555", "email@email.com", "Fulano", "Alameda das Orquídeas, 1080", new BigDecimal(1000));
+        AddressRequest addressRequest = new AddressRequest("Alameda das Orquídeas", "999", "13560000");
+        ProposalRequest proposalRequest = new ProposalRequest("233444555", "email@email.com", "Fulano", addressRequest, new BigDecimal(1000));
         mockMvc.perform(
                 MockMvcRequestBuilders.post("/proposals")
                         .contentType(MediaType.APPLICATION_JSON)

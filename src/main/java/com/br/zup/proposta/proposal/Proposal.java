@@ -1,5 +1,6 @@
 package com.br.zup.proposta.proposal;
 
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -28,8 +29,8 @@ public class Proposal {
     @NotBlank
     private String name;
 
-    @NotBlank
-    private String address;
+    @Embedded
+    private Address address;
 
     @Positive
     @NotNull
@@ -39,7 +40,7 @@ public class Proposal {
     public Proposal() {
     }
 
-    public Proposal(@NotBlank String document, @NotBlank @Email String email, @NotBlank String name, @NotBlank String address, @Positive @NotNull BigDecimal salary) {
+    public Proposal(@NotBlank String document, @NotBlank @Email String email, @NotBlank String name, Address address, @Positive @NotNull BigDecimal salary) {
         this.document = document;
         this.email = email;
         this.name = name;
@@ -63,11 +64,23 @@ public class Proposal {
         return name;
     }
 
-    public String getAddress() {
+    public Address getAddress() {
         return address;
     }
 
     public BigDecimal getSalary() {
         return salary;
+    }
+
+    @Override
+    public String toString() {
+        return "Proposal{" +
+                "id=" + id +
+                ", document='" + document + '\'' +
+                ", email='" + email + '\'' +
+                ", name='" + name + '\'' +
+                ", address=" + address +
+                ", salary=" + salary +
+                '}';
     }
 }
