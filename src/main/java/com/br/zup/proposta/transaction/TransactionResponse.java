@@ -8,30 +8,46 @@ import javax.validation.constraints.NotNull;
 
 public class TransactionResponse {
 
-    @JsonProperty("resultadoSolicitacao")
-    private String transactionId;
+    @JsonProperty("documento")
+    private String document;
 
     @JsonProperty("idProposta")
     private Long proposalId;
 
-    public TransactionResponse(String transactionId, Long proposalId) {
-        this.transactionId = transactionId;
+    @JsonProperty("resultadoSolicitacao")
+    private String status;
+
+    public TransactionResponse(String document, Long proposalId, String status) {
+        this.document = document;
         this.proposalId = proposalId;
+        this.status = status;
     }
 
     public String getTransactionId() {
-        return transactionId;
+        return document;
     }
 
     public Long getProposalId() {
         return proposalId;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
     @Override
     public String toString() {
         return "TransactionResponse{" +
-                "transactionId='" + transactionId + '\'' +
+                "document='" + document + '\'' +
                 ", proposalId=" + proposalId +
+                ", status='" + status + '\'' +
                 '}';
+    }
+
+    public TransactionStatus resolveEnum() {
+        if("SEM_RESTRICAO".equals(status)) {
+            return TransactionStatus.ELIGIBLE;
+        }
+        return  TransactionStatus.NOT_ELIGIBLE;
     }
 }

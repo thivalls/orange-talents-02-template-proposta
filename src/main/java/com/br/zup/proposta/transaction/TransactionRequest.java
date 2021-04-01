@@ -1,5 +1,6 @@
 package com.br.zup.proposta.transaction;
 
+import com.br.zup.proposta.proposal.Proposal;
 import com.br.zup.proposta.shared.validation.CpfOrCnpj;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -21,13 +22,13 @@ public class TransactionRequest {
     @JsonProperty("idProposta")
     private Long proposalId;
 
-    @NotNull
-    private TransactionStatus status;
+//    @NotNull
+//    private TransactionStatus status;
 
-    public TransactionRequest(@NotBlank String document, @NotBlank String name, @NotNull Long proposalId) {
-        this.document = document;
-        this.name = name;
-        this.proposalId = proposalId;
+    public TransactionRequest(Proposal proposal) {
+        this.document = proposal.getDocument();
+        this.name = proposal.getName();
+        this.proposalId = getProposalId();
     }
 
     public String getDocument() {
