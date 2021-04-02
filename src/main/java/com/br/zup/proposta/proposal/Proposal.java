@@ -1,7 +1,9 @@
 package com.br.zup.proposta.proposal;
 
+import com.br.zup.proposta.card.Card;
 import com.br.zup.proposta.proposal.transaction.TransactionStatus;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -10,6 +12,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -44,6 +48,7 @@ public class Proposal {
 
     @NotNull
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private TransactionStatus status;
 
     @Column(nullable = false, updatable = false)
@@ -51,6 +56,10 @@ public class Proposal {
 
     @Column(nullable = true)
     private LocalDateTime updatedAt = LocalDateTime.now();
+
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "card_id", nullable = true)
+    private Card card;
 
     @Deprecated
     public Proposal() {
@@ -108,6 +117,12 @@ public class Proposal {
         if(status == null) throw new IllegalArgumentException("Status can not be null");
 
         this.status = status;
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    public void updateCardNumber(Card card) {
+        if(card == null) throw new IllegalArgumentException("Status can not be null");
+        this.card = card;
         this.updatedAt = LocalDateTime.now();
     }
 }
