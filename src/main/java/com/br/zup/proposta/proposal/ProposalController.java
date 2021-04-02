@@ -1,9 +1,9 @@
 package com.br.zup.proposta.proposal;
 
 import com.br.zup.proposta.http.client.feign.ProposalFinancialAnalysisClient;
-import com.br.zup.proposta.transaction.TransactionRequest;
-import com.br.zup.proposta.transaction.TransactionResponse;
-import com.br.zup.proposta.transaction.TransactionStatus;
+import com.br.zup.proposta.proposal.transaction.TransactionRequest;
+import com.br.zup.proposta.proposal.transaction.TransactionResponse;
+import com.br.zup.proposta.proposal.transaction.TransactionStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

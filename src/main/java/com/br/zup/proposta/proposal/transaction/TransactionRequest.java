@@ -1,4 +1,4 @@
-package com.br.zup.proposta.transaction;
+package com.br.zup.proposta.proposal.transaction;
 
 import com.br.zup.proposta.proposal.Proposal;
 import com.br.zup.proposta.shared.validation.CpfOrCnpj;
@@ -21,9 +21,6 @@ public class TransactionRequest {
     @NotNull
     @JsonProperty("idProposta")
     private Long proposalId;
-
-//    @NotNull
-//    private TransactionStatus status;
 
     public TransactionRequest(Proposal proposal) {
         this.document = proposal.getDocument();

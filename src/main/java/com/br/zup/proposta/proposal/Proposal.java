@@ -1,6 +1,6 @@
 package com.br.zup.proposta.proposal;
 
-import com.br.zup.proposta.transaction.TransactionStatus;
+import com.br.zup.proposta.proposal.transaction.TransactionStatus;
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;

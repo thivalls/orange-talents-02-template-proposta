@@ -1,10 +1,6 @@
-package com.br.zup.proposta.transaction;
+package com.br.zup.proposta.proposal.transaction;
 
-import com.br.zup.proposta.shared.validation.CpfOrCnpj;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 public class TransactionResponse {
 

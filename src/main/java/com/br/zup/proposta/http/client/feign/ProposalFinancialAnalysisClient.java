@@ -1,7 +1,7 @@
 package com.br.zup.proposta.http.client.feign;
 
-import com.br.zup.proposta.transaction.TransactionRequest;
-import com.br.zup.proposta.transaction.TransactionResponse;
+import com.br.zup.proposta.proposal.transaction.TransactionRequest;
+import com.br.zup.proposta.proposal.transaction.TransactionResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 

@@ -1,4 +1,4 @@
-package com.br.zup.proposta.transaction;
+package com.br.zup.proposta.proposal.transaction;
 
 public enum TransactionStatus {
     ELIGIBLE, NOT_ELIGIBLE
