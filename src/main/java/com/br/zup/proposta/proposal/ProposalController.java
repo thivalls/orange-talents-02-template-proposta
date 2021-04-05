@@ -8,6 +8,8 @@ import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -60,5 +62,18 @@ public class ProposalController {
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Unexpected error"); // return exception to force rollback in database
         }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity show(@PathVariable Long id) {
+        Optional<Proposal> proposal = proposalRepository.findById(id);
+
+        if(!proposal.isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        ProposalStatusResponse proposalStatusResponse = new ProposalStatusResponse(proposal.get());
+
+        return ResponseEntity.ok(proposalStatusResponse);
     }
 }

@@ -100,6 +100,14 @@ public class Proposal {
         return salary;
     }
 
+    public TransactionStatus getStatus() {
+        return status;
+    }
+
+    public Card getCard() {
+        return card;
+    }
+
     @Override
     public String toString() {
         return "Proposal{" +
