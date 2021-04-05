@@ -2,7 +2,6 @@ package com.br.zup.proposta.proposal;
 
 import com.br.zup.proposta.shared.validation.CpfOrCnpj;
 
-import javax.persistence.Embedded;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
