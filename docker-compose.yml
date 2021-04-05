@@ -34,6 +34,46 @@ services:
       POSTGRES_DB: keycloak
       POSTGRES_HOST: postgres
 
+  mariadb:
+    container_name: "proposta_db"
+    image: 'mariadb:latest'
+    volumes:
+      - mariadb-volume:/var/lib/mysql
+    ports:
+      - 3307:3306
+    environment:
+      MYSQL_USER: root
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: proposal
+      MYSQL_HOST: mysql
+
+  proposta:
+    build:
+      context: .
+    container_name: proposta
+    depends_on:
+      - mariadb
+      - analise
+      - contas
+      - keycloak
+      - jaeger
+      - prometheus
+    ports:
+      - 8090:8090
+    environment:
+      PORT: 8090
+      DB_URL: mariadb
+      DB_USERNAME: root
+      DB_PASSWORD: root
+      ANALISE_SERVICE: analise
+      ACCOUNT_SERVICE: contas
+      KEYCLOAK_ISSUER_URI: http://keycloak:8080/auth/realms/proposta
+      KEYCLOAK_JWKS_URI: http://keycloak:8080/auth/realms/proposta/protocol/openid-connect/certs
+      AUTH_CLIENT_URL: http://keycloak:8080/auth/realms/proposta/protocol/openid-connect/token
+      METRICS_NOME_DA_APLICACAO: proposta
+      METRICS_AMBIENTE: development
+      JAEGER_ENDPOINT: http://jaeger:14268/api/traces
+
   keycloak:
     image: jboss/keycloak
     ports:
@@ -138,3 +178,4 @@ volumes:
   grafana-volume:
   prometheus-volume:
   postgres-volume:
+  mariadb-volume:
