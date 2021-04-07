@@ -34,6 +34,36 @@ services:
       POSTGRES_DB: keycloak
       POSTGRES_HOST: postgres
 
+  mariadb:
+    container_name: "proposta_db"
+    image: 'mariadb:latest'
+    volumes:
+      - mariadb-volume:/var/lib/mysql
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: proposal
+    networks:
+      - proposal-net
+
+  proposta:
+    build:
+      context: .
+    container_name: proposta
+    depends_on:
+      - mariadb
+      - analise
+    ports:
+      - 8080:8080
+    environment:
+      DB_PORT: 3306
+      DB_HOST: mariadb
+      DB_NAME: proposal
+      CHECK_CARD_TASK_DELAY: 60000
+    networks:
+      - proposal-net
+
   keycloak:
     image: jboss/keycloak
     ports:
@@ -71,6 +101,8 @@ services:
       LOG_LEVEL: INFO
       URL_SISTEMA_CARTAO: http://contas:8888/api/cartoes
       JAEGER_ENDPOINT: http://jaeger:14268/api/traces
+    networks:
+      - proposal-net
 
   contas:
     image: 'zupacademy/contas'
@@ -80,6 +112,8 @@ services:
       SERVER_PORT: 8888
       LOG_LEVEL: INFO
       JAEGER_ENDPOINT: http://jaeger:14268/api/traces
+    networks:
+      - proposal-net
 
   transacoes:
     image: 'zupacademy/transacoes'
@@ -106,6 +140,8 @@ services:
       - 9411:9411
     environment:
       COLLECTOR_ZIPKIN_HTTP_PORT: 9411
+    networks:
+      - proposal-net
 
   prometheus:
     image: prom/prometheus
@@ -138,6 +174,7 @@ volumes:
   grafana-volume:
   prometheus-volume:
   postgres-volume:
+  mariadb-volume:
 
 networks:
   proposal-net:
