@@ -1,10 +1,12 @@
 package com.br.zup.proposta.card;
 
-import com.br.zup.proposta.biometry.BiometryController;
+import com.br.zup.proposta.http.client.feign.BlockCardClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.Optional;
@@ -23,7 +24,10 @@ import java.util.Optional;
 public class CardController {
 
     @Autowired
-    CardRepository cardRepository;
+    private CardRepository cardRepository;
+
+    @Autowired
+    private BlockCardClient blockCardClient;
 
     @PersistenceContext
     private EntityManager em;
@@ -32,10 +36,9 @@ public class CardController {
 
     @PostMapping("/{cardId}/block")
     @Transactional
-    public ResponseEntity<?> store(@PathVariable Long cardId, @RequestBody  @Valid CardBlockRequest request) {
+    public ResponseEntity<?> store(@PathVariable String cardId, @RequestBody @Valid CardBlockRequest request) {
 
-        logger.info("CHECKING IF CARD EXIST");
-        Optional<Card> card = cardRepository.findById(cardId);
+        Optional<Card> card = cardRepository.findByCardNumber(cardId);
         if(!card.isPresent()) {
             return ResponseEntity.notFound().build();
         }
@@ -44,16 +47,23 @@ public class CardController {
 
         if(card.get().getStatus().equals(CardStatus.BLOCKED)) return ResponseEntity.unprocessableEntity().build();
 
-        card.get().blockCard();
+        try {
 
-        cardRepository.save(card.get());
+            BlockCardResponse blockCardResponse = blockCardClient.externalBlockCardService(cardId, request);
+            String userIp = "192.168.1.2";
+            String userAgent = "Mozilla/5.0 (<system-information>) <platform> (<platform-details>) <extensions>";
+            if(blockCardResponse.getResponseStatus().equals("BLOQUEADO")) {
+                CardBlock cardBlock = request.toModel(userIp, userAgent, card.get());
+                em.persist(cardBlock);
+                card.get().blockCard();
+                cardRepository.save(card.get());
+                return ResponseEntity.ok().build();
+            }
 
-        String userIp = "192.168.1.2";
-        String userAgent = "Mozilla/5.0 (<system-information>) <platform> (<platform-details>) <extensions>";
-        CardBlock cardBlock = request.toModel(userIp, userAgent, card.get());
-        em.persist(cardBlock);
+            return ResponseEntity.badRequest().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
 
-        // return 200 if block process has been concluded
-        return ResponseEntity.ok().build();
     }
 }

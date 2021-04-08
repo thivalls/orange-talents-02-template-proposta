@@ -22,9 +22,6 @@ public class CardBlock {
     private String clientIp;
     private String userAgent;
 
-    @NotBlank
-    private String emitter;
-
     @OneToOne
     @NotNull
     private Card card;
@@ -33,9 +30,7 @@ public class CardBlock {
     public CardBlock() {
     }
 
-    public CardBlock(@NotBlank String clientIp, @NotBlank String userAgent, @NotBlank String emitter, @NotNull Card card) {
-        this.emitter = emitter;
-        this.id = id;
+    public CardBlock(@NotBlank String clientIp, @NotBlank String userAgent, @NotNull Card card) {
         this.clientIp = clientIp;
         this.userAgent = userAgent;
         this.blockedAt = LocalDateTime.now();
