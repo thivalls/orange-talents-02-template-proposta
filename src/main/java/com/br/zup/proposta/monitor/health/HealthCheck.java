@@ -1,4 +1,4 @@
-package com.br.zup.proposta.health;
+package com.br.zup.proposta.monitor.health;
 
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;

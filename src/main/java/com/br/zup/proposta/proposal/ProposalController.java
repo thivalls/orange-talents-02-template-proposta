@@ -1,6 +1,7 @@
 package com.br.zup.proposta.proposal;
 
 import com.br.zup.proposta.http.client.feign.ProposalFinancialAnalysisClient;
+import com.br.zup.proposta.monitor.metrics.ProposalMetrics;
 import com.br.zup.proposta.proposal.request.ProposalRequest;
 import com.br.zup.proposta.proposal.response.ProposalStatusResponse;
 import com.br.zup.proposta.proposal.transaction.TransactionRequest;
@@ -34,6 +35,9 @@ public class ProposalController {
     @Autowired
     private ProposalFinancialAnalysisClient proposalFinancialAnalysisClient;
 
+    @Autowired
+    private ProposalMetrics proposalMetrics;
+
     @PostMapping
     @Transactional
     public ResponseEntity store(@RequestBody @Valid ProposalRequest request) {
@@ -49,6 +53,8 @@ public class ProposalController {
         TransactionStatus status = submitForExternalAnalysis(proposal);
 
         proposal.updateStatus(status);
+
+        proposalMetrics.myCounter();
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(proposal.getId()).toUri();
         return ResponseEntity.created(uri).build();

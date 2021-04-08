@@ -13,6 +13,7 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests(authorizeRequests ->
                 authorizeRequests
+                        .antMatchers(HttpMethod.GET, "/actuator/**").permitAll()
                         .antMatchers(HttpMethod.GET, "/proposals/**").hasAuthority("SCOPE_proposals:read")
                         .antMatchers(HttpMethod.GET, "/cards/**").hasAuthority("SCOPE_cards:read")
                         .antMatchers(HttpMethod.POST, "/cards/**").hasAuthority("SCOPE_cards:write")
