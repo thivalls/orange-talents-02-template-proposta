@@ -1,4 +1,4 @@
-package com.br.zup.proposta.card;
+package com.br.zup.proposta.card.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

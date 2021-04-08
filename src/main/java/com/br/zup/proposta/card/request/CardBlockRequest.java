@@ -1,5 +1,7 @@
-package com.br.zup.proposta.card;
+package com.br.zup.proposta.card.request;
 
+import com.br.zup.proposta.card.model.Card;
+import com.br.zup.proposta.card.model.CardBlock;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.validation.constraints.NotBlank;

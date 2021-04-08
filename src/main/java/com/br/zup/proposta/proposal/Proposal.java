@@ -1,6 +1,6 @@
 package com.br.zup.proposta.proposal;
 
-import com.br.zup.proposta.card.Card;
+import com.br.zup.proposta.card.model.Card;
 import com.br.zup.proposta.proposal.transaction.TransactionStatus;
 
 import javax.persistence.CascadeType;

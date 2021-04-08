@@ -1,4 +1,6 @@
-package com.br.zup.proposta.proposal;
+package com.br.zup.proposta.proposal.request;
+
+import com.br.zup.proposta.proposal.Address;
 
 import javax.validation.constraints.NotBlank;
 

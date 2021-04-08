@@ -1,5 +1,6 @@
-package com.br.zup.proposta.card;
+package com.br.zup.proposta.card.model;
 
+import com.br.zup.proposta.card.CardStatus;
 import com.br.zup.proposta.proposal.Proposal;
 import org.springframework.util.Assert;
 

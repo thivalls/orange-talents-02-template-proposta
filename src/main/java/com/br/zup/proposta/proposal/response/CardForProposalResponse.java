@@ -1,6 +1,7 @@
-package com.br.zup.proposta.proposal;
+package com.br.zup.proposta.proposal.response;
 
 import com.br.zup.proposta.card.CardStatus;
+import com.br.zup.proposta.proposal.Proposal;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDateTime;

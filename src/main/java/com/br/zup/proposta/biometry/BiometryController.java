@@ -1,6 +1,9 @@
 package com.br.zup.proposta.biometry;
 
-import com.br.zup.proposta.card.Card;
+import com.br.zup.proposta.biometry.model.Biometry;
+import com.br.zup.proposta.biometry.request.BiometryRequest;
+import com.br.zup.proposta.biometry.response.BiometryResponse;
+import com.br.zup.proposta.card.model.Card;
 import com.br.zup.proposta.card.CardRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,7 +1,7 @@
 package com.br.zup.proposta.http.client.feign;
 
-import com.br.zup.proposta.card.CardResponse;
-import com.br.zup.proposta.card.CardRequest;
+import com.br.zup.proposta.card.response.CardResponse;
+import com.br.zup.proposta.card.request.CardRequest;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 

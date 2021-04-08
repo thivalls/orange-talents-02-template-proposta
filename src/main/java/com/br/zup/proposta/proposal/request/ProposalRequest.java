@@ -1,5 +1,6 @@
-package com.br.zup.proposta.proposal;
+package com.br.zup.proposta.proposal.request;
 
+import com.br.zup.proposta.proposal.Proposal;
 import com.br.zup.proposta.shared.validation.CpfOrCnpj;
 
 import javax.validation.constraints.Email;

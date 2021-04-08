@@ -1,7 +1,7 @@
 package com.br.zup.proposta.http.client.feign;
 
-import com.br.zup.proposta.card.BlockCardResponse;
-import com.br.zup.proposta.card.CardBlockRequest;
+import com.br.zup.proposta.card.response.BlockCardResponse;
+import com.br.zup.proposta.card.request.CardBlockRequest;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;

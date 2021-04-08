@@ -1,4 +1,6 @@
-package com.br.zup.proposta.biometry;
+package com.br.zup.proposta.biometry.response;
+
+import com.br.zup.proposta.biometry.model.Biometry;
 
 import java.time.LocalDateTime;
 

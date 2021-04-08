@@ -1,4 +1,4 @@
-package com.br.zup.proposta.card;
+package com.br.zup.proposta.card.response;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;

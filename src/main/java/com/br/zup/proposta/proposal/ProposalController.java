@@ -1,6 +1,8 @@
 package com.br.zup.proposta.proposal;
 
 import com.br.zup.proposta.http.client.feign.ProposalFinancialAnalysisClient;
+import com.br.zup.proposta.proposal.request.ProposalRequest;
+import com.br.zup.proposta.proposal.response.ProposalStatusResponse;
 import com.br.zup.proposta.proposal.transaction.TransactionRequest;
 import com.br.zup.proposta.proposal.transaction.TransactionResponse;
 import com.br.zup.proposta.proposal.transaction.TransactionStatus;

@@ -1,10 +1,10 @@
 package com.br.zup.proposta.schedule;
 
-import com.br.zup.proposta.card.Card;
+import com.br.zup.proposta.card.model.Card;
 import com.br.zup.proposta.card.CardRepository;
 import com.br.zup.proposta.http.client.feign.CheckCardNumberClient;
-import com.br.zup.proposta.card.CardResponse;
-import com.br.zup.proposta.card.CardRequest;
+import com.br.zup.proposta.card.response.CardResponse;
+import com.br.zup.proposta.card.request.CardRequest;
 import com.br.zup.proposta.proposal.Proposal;
 import com.br.zup.proposta.proposal.ProposalRepository;
 import com.br.zup.proposta.proposal.transaction.TransactionStatus;

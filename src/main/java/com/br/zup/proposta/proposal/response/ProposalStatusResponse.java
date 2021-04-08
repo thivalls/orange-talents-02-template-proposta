@@ -1,5 +1,7 @@
-package com.br.zup.proposta.proposal;
+package com.br.zup.proposta.proposal.response;
 
+import com.br.zup.proposta.proposal.Address;
+import com.br.zup.proposta.proposal.Proposal;
 import com.br.zup.proposta.proposal.transaction.TransactionStatus;
 
 import java.math.BigDecimal;

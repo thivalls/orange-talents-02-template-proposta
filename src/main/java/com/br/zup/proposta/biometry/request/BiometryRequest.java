@@ -1,11 +1,10 @@
-package com.br.zup.proposta.biometry;
+package com.br.zup.proposta.biometry.request;
 
-import com.br.zup.proposta.card.Card;
+import com.br.zup.proposta.biometry.model.Biometry;
+import com.br.zup.proposta.card.model.Card;
 import org.springframework.util.Assert;
 
-import javax.persistence.EntityManager;
 import javax.validation.constraints.NotBlank;
-import java.util.Base64;
 
 public class BiometryRequest {
     @NotBlank

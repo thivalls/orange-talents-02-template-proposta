@@ -1,12 +1,15 @@
 package com.br.zup.proposta.card;
 
+import com.br.zup.proposta.card.model.Card;
+import com.br.zup.proposta.card.model.CardBlock;
+import com.br.zup.proposta.card.request.CardBlockRequest;
+import com.br.zup.proposta.card.response.BlockCardResponse;
 import com.br.zup.proposta.http.client.feign.BlockCardClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

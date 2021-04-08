@@ -1,11 +1,10 @@
-package com.br.zup.proposta.card;
+package com.br.zup.proposta.card.response;
 
+import com.br.zup.proposta.card.model.Card;
 import com.br.zup.proposta.proposal.Proposal;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.util.Assert;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
