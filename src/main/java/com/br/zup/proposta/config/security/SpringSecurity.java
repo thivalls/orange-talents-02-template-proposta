@@ -14,8 +14,8 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
         http.authorizeRequests(authorizeRequests ->
                 authorizeRequests
                         .antMatchers(HttpMethod.GET, "/propostas/**").hasAuthority("SCOPE_proposals:read")
-                        .antMatchers(HttpMethod.GET, "/cards/**").hasAuthority("SCOPE_cartoes:read")
-                        .antMatchers(HttpMethod.POST, "/cards/**").hasAuthority("SCOPE_cartoes:write")
+                        .antMatchers(HttpMethod.GET, "/cards/**").hasAuthority("SCOPE_cards:read")
+                        .antMatchers(HttpMethod.POST, "/cards/**").hasAuthority("SCOPE_cards:write")
                         .antMatchers(HttpMethod.POST, "/proposals/**").hasAuthority("SCOPE_proposals:write")
                         .anyRequest().authenticated()
         )

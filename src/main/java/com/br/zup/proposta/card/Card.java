@@ -97,5 +97,9 @@ public class Card {
     public CardStatus getStatus() {
         return status;
     }
+
+    public void blockCard() {
+        this.status = CardStatus.BLOCKED;
+    }
 }
 
