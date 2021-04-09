@@ -8,8 +8,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
@@ -25,8 +23,7 @@ import java.time.LocalDateTime;
 public class Card {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
     @NotBlank
     @Column(nullable = false)
@@ -52,21 +49,19 @@ public class Card {
     @JoinColumn(name = "proposal_id", nullable = false)
     private Proposal proposal;
 
-    /**
-     * @Deprecated for framework use only
-     */
     @Deprecated
     public Card() {
     }
 
     public Card(String cardNumber, String owner, BigDecimal cardLimit, LocalDateTime createdAt, Proposal proposal) {
-        Assert.hasLength(cardNumber, "Número de cartão é obrigatório");
-        Assert.hasLength(owner, "Nome do dono do cartão é obrigatório");
-        Assert.notNull(cardLimit, "Limite do cartão é obrigatório");
-        Assert.state(cardLimit.compareTo(BigDecimal.ZERO) > 0, "Limite deve ser maior que 0");
-        Assert.notNull(createdAt, "Momento de criação é obrigatório!");
-        Assert.notNull(proposal, "Proposta é obrigatória!");
+        Assert.hasLength(cardNumber, "Card number is required!");
+        Assert.hasLength(owner, "Card owner is required");
+        Assert.notNull(cardLimit, "Limit is required");
+        Assert.state(cardLimit.compareTo(BigDecimal.ZERO) > 0, "Limit must be greater than 0");
+        Assert.notNull(createdAt, "The time of creation is required!");
+        Assert.notNull(proposal, "Proposal is required!");
 
+        this.id = cardNumber;
         this.cardNumber = cardNumber;
         this.owner = owner;
         this.cardLimit = cardLimit;

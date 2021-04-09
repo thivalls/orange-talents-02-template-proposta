@@ -6,7 +6,6 @@ import com.br.zup.proposta.proposal.request.ProposalRequest;
 import com.br.zup.proposta.proposal.response.ProposalStatusResponse;
 import com.br.zup.proposta.proposal.transaction.TransactionRequest;
 import com.br.zup.proposta.proposal.transaction.TransactionResponse;
-import com.br.zup.proposta.proposal.transaction.TransactionStatus;
 import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -40,7 +39,7 @@ public class ProposalController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity store(@RequestBody @Valid ProposalRequest request) {
+    public ResponseEntity<Void> store(@RequestBody @Valid ProposalRequest request) {
 
         Optional<Proposal> proposalExist = proposalRepository.findByDocument(request.getDocument());
         if (proposalExist.isPresent()) {
@@ -50,7 +49,7 @@ public class ProposalController {
         Proposal proposal = request.toModel();
         proposalRepository.save(proposal);
 
-        TransactionStatus status = submitForExternalAnalysis(proposal);
+        ProposalStatus status = submitForExternalAnalysis(proposal);
 
         proposal.updateStatus(status);
 
@@ -60,23 +59,23 @@ public class ProposalController {
         return ResponseEntity.created(uri).build();
     }
 
-    public TransactionStatus submitForExternalAnalysis(Proposal proposal) {
+    public ProposalStatus submitForExternalAnalysis(Proposal proposal) {
         try {
             TransactionRequest transactionRequest = new TransactionRequest(proposal);
             TransactionResponse apiAnalysisFinancialResult = proposalFinancialAnalysisClient.checkClientFinancialStatus(transactionRequest);
             return apiAnalysisFinancialResult.resolveEnum();
         } catch (FeignException.UnprocessableEntity e) {
-            return TransactionStatus.NOT_ELIGIBLE;
+            return ProposalStatus.NOT_ELIGIBLE;
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Unexpected error"); // return exception to force rollback in database
         }
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity show(@PathVariable Long id) {
+    public ResponseEntity<ProposalStatusResponse> show(@PathVariable Long id) {
         Optional<Proposal> proposal = proposalRepository.findById(id);
 
-        if(!proposal.isPresent()) {
+        if(proposal.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 

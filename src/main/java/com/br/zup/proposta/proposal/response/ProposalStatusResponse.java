@@ -2,13 +2,13 @@ package com.br.zup.proposta.proposal.response;
 
 import com.br.zup.proposta.proposal.Address;
 import com.br.zup.proposta.proposal.Proposal;
-import com.br.zup.proposta.proposal.transaction.TransactionStatus;
+import com.br.zup.proposta.proposal.ProposalStatus;
 
 import java.math.BigDecimal;
 
 public class ProposalStatusResponse {
     private Long id;
-    private TransactionStatus status;
+    private ProposalStatus status;
     private String document;
     private String email;
     private String name;
@@ -34,7 +34,7 @@ public class ProposalStatusResponse {
         return id;
     }
 
-    public TransactionStatus getStatus() {
+    public ProposalStatus getStatus() {
         return status;
     }
 

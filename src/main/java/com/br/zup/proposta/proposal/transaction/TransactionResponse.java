@@ -1,5 +1,6 @@
 package com.br.zup.proposta.proposal.transaction;
 
+import com.br.zup.proposta.proposal.ProposalStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class TransactionResponse {
@@ -40,10 +41,10 @@ public class TransactionResponse {
                 '}';
     }
 
-    public TransactionStatus resolveEnum() {
+    public ProposalStatus resolveEnum() {
         if("SEM_RESTRICAO".equals(status)) {
-            return TransactionStatus.ELIGIBLE;
+            return ProposalStatus.ELIGIBLE;
         }
-        return  TransactionStatus.NOT_ELIGIBLE;
+        return  ProposalStatus.NOT_ELIGIBLE;
     }
 }

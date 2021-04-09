@@ -1,7 +1,6 @@
 package com.br.zup.proposta.proposal;
 
 import com.br.zup.proposta.card.model.Card;
-import com.br.zup.proposta.proposal.transaction.TransactionStatus;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -49,7 +48,7 @@ public class Proposal {
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private TransactionStatus status;
+    private ProposalStatus status;
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
@@ -73,7 +72,7 @@ public class Proposal {
         this.salary = salary;
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
-        this.status = TransactionStatus.NOT_ELIGIBLE;
+        this.status = ProposalStatus.NOT_ELIGIBLE;
     }
 
     public Long getId() {
@@ -100,7 +99,7 @@ public class Proposal {
         return salary;
     }
 
-    public TransactionStatus getStatus() {
+    public ProposalStatus getStatus() {
         return status;
     }
 
@@ -120,7 +119,7 @@ public class Proposal {
                 '}';
     }
 
-    public void updateStatus(TransactionStatus status) {
+    public void updateStatus(ProposalStatus status) {
         // testar
         if(status == null) throw new IllegalArgumentException("Status can not be null");
 

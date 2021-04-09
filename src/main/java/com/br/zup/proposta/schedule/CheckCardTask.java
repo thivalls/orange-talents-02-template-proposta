@@ -7,7 +7,7 @@ import com.br.zup.proposta.card.response.CardResponse;
 import com.br.zup.proposta.card.request.CardRequest;
 import com.br.zup.proposta.proposal.Proposal;
 import com.br.zup.proposta.proposal.ProposalRepository;
-import com.br.zup.proposta.proposal.transaction.TransactionStatus;
+import com.br.zup.proposta.proposal.ProposalStatus;
 import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -28,10 +28,9 @@ public class CheckCardTask {
 
     @Scheduled(fixedDelayString = "${deplay.check.card.task}")
     private void execute() {
-        // pegar lista de todos as propostas approvadas
-        List<Proposal> proposals = proposalRepository.findAllByCardIsNullAndStatusEquals(TransactionStatus.ELIGIBLE);
-        //fazer requisição para api
-        if(proposals.size() > 0) {
+        List<Proposal> proposals = proposalRepository.findAllByCardIsNullAndStatusEquals(ProposalStatus.ELIGIBLE);
+
+        if(!proposals.isEmpty()) {
             for (Proposal proposal : proposals) {
                 try {
                     CardResponse cardResponse = checkCardNumberClient.checkCardProposal(new CardRequest(proposal.getDocument(), proposal.getName(), proposal.getId().toString()));

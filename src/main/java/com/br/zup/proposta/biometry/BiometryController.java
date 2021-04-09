@@ -36,10 +36,10 @@ public class BiometryController {
 
     @PostMapping("{cardId}")
     @Transactional
-    public ResponseEntity<?> store(@PathVariable Long cardId, @RequestBody BiometryRequest request) {
+    public ResponseEntity<Void> store(@PathVariable String cardId, @RequestBody BiometryRequest request) {
         logger.info("Verificando existência de cartão");
         Optional<Card> card = cardRepository.findById(cardId);
-        if(!card.isPresent()) {
+        if(card.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 
@@ -57,15 +57,12 @@ public class BiometryController {
     }
 
     @GetMapping("/{cardId}/{biometryId}")
-    public ResponseEntity<BiometryResponse> show(@PathVariable(name = "cardId") Long cardId, @PathVariable(name = "biometryId") String biometryId) {
+    public ResponseEntity<BiometryResponse> show(@PathVariable(name = "cardId") String cardId, @PathVariable(name = "biometryId") String biometryId) {
         logger.info("Verificando existência de cartão");
         Optional<Card> card = cardRepository.findById(cardId);
-        if(!card.isPresent()) {
+        if(card.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-
-        logger.info(cardId.toString());
-        logger.info(biometryId.toString());
 
         Biometry biometry = em.find(Biometry.class, biometryId);
         if(biometry == null) {
