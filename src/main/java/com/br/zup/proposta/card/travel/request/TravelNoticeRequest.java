@@ -6,13 +6,14 @@ import io.micrometer.core.lang.NonNull;
 
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 public class TravelNoticeRequest {
     @NotBlank
     private String travelTo;
 
-    @NonNull
+    @NotNull
     @Future
     private LocalDateTime travelEndDate;
 
@@ -25,7 +26,7 @@ public class TravelNoticeRequest {
         return travelTo;
     }
 
-    @NonNull
+    @NotNull
     public LocalDateTime getTravelEndDate() {
         return travelEndDate;
     }
